@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Vue</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Are you a real Pokémon fan?</h1>
+    <h2>Test your knowledge playing throught the levels of this game!</h2>
+    <div id="app">
+        <div v-if="!endGame">
+        <div>
+            <h3>LEVEL {{ level }}</h3>
+            <p>Can you decipher the names of these Pokémon?</p>
+            <ul>
+                <li v-for="pokemon in shuffledPokemons" :key="pokemon.name">
+                    <label>{{ pokemon.shuffledName }}</label>
+                    <div v-if="!correctlyGuessed(pokemon.name)">
+                    <input v-model="userGuess[pokemon.name]" placeholder="Your guess">
+                    <button @click="checkAnswer(pokemon.name)">Check</button>
+                    </div>
+                    <div v-else>
+                        <p>{{pokemon.name}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <button v-if="level >= 1 && level <= 5" @click="nextLevel">Next level</button>
+        <button v-if="level == 6" @click="showResults">Check my results!</button>
+    </div>
+    <div v-else>
+        <h2>Your final score was {{ score }}/30</h2>
+        <h3 v-if="score <= 5">You can't call yourself a Pokémon fan!</h3>
+        <h3 v-if="score > 5 && score <= 15">You did okay, but a mediocre fan at best!</h3>
+        <h3 v-if="score > 15 && score <= 25">Well done, you're a real Pokémon fan!</h3>
+        <h3 v-if="score > 25">WOW, you really know your Pokémon! Congratulations, you got the highest rank!</h3>
+    </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
